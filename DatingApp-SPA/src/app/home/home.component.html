@@ -1,0 +1,12 @@
+<div class="container mt-5" *ngIf="!registerMode">
+  <div class="text-center">
+    <button class="btn btn-primary btn-lg mr-2" (click)="toggleMode()">
+      Register
+    </button>
+    <button class="btn btn-primary btn-lg">Learn more</button>
+  </div>
+</div>
+
+<div class="container mt-5" *ngIf="registerMode">
+  <app-register (cancel)="toggleMode()"></app-register>
+</div>

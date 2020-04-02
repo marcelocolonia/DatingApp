@@ -1,6 +1,3 @@
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using DatingApp.API.Data;
 using DatingApp.API.DatingApp.Dtos;
@@ -8,7 +5,6 @@ using DatingApp.API.DatingApp.Utils;
 using DatingApp.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace DatingApp.API.Controllers
 {
@@ -60,28 +56,14 @@ namespace DatingApp.API.Controllers
             if (userInRepository == null)
                 return Unauthorized();
 
-            //  creating payload
-            var claims = new Claim[] {
-                new Claim(ClaimTypes.NameIdentifier, userInRepository.Id.ToString()),
-                new Claim(ClaimTypes.NameIdentifier, userInRepository.Username),
-            };
-
-            var signingCredentials = new SigningCredentials(_signing.SecurityKey, SecurityAlgorithms.HmacSha512Signature);
-
-            var securityTokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                SigningCredentials = signingCredentials,
-                Expires = DateTime.UtcNow.AddDays(1),
-            };
-
-            var jwtHandler = new JwtSecurityTokenHandler();
-
-            var token = jwtHandler.CreateToken(securityTokenDescriptor);
+            var token = _signing.GenerateToken(new string[] {
+                userInRepository.Id.ToString(),
+                userInRepository.Username,
+            });
 
             return Ok(new
             {
-                token = jwtHandler.WriteToken(token)
+                token = token
             });
 
         }
