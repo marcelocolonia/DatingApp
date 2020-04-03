@@ -20,7 +20,7 @@ export class RegisterComponent {
         console.log('registered');
       },
       error => {
-        console.log('error when registering');
+        console.log(error);
       }
     );
   }
