@@ -8,12 +8,12 @@ import { BsDropdownModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
-import { ErrorInterceptorProvider } from './services/error.interceptor';
-import { AlertService } from './services/alert.service';
-import { TokenStorageService } from './services/token-storage.service';
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { AlertService } from './_services/alert.service';
+import { TokenStorageService } from './_services/token-storage.service';
 import { MemberListComponent } from './member-list/member-list.component';
 import { appRoutes } from './routes';
 import { ListsComponent } from './lists/lists.component';
