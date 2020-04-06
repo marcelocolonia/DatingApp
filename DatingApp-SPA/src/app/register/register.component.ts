@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -12,15 +13,15 @@ export class RegisterComponent {
   @Output()
   cancel = new EventEmitter<any>();
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private alert: AlertService) {}
 
   register(): void {
     this.authService.register(this.model).subscribe(
       response => {
-        console.log('registered');
+        this.alert.success('Registered successfully');
       },
       error => {
-        console.log(error);
+        this.alert.error(error);
       }
     );
   }
