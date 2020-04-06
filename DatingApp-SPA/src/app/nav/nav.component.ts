@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AlertService } from '../services/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -8,10 +9,13 @@ import { AlertService } from '../services/alert.service';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-
   model: any = {};
 
-  constructor(private authService: AuthService, private alert: AlertService) {}
+  constructor(
+    private authService: AuthService,
+    private alert: AlertService,
+    private router: Router
+  ) {}
 
   get userName(): string {
     return this.authService.getUserName();
@@ -21,11 +25,14 @@ export class NavComponent implements OnInit {
 
   login(): void {
     this.authService.login(this.model).subscribe(
-      response => {
+      next => {
         this.alert.success('Logged in successfully');
       },
       error => {
         this.alert.error(error);
+      },
+      () => {
+        this.router.navigate(['/members']);
       }
     );
   }
@@ -35,7 +42,8 @@ export class NavComponent implements OnInit {
   }
 
   logout(): void {
-    this.authService.logout();
-    this.alert.message('Logged out');
+    this.router.navigate(['/home']).then(() => {
+      this.authService.logout();
+    });
   }
 }
