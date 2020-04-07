@@ -15,7 +15,7 @@
       "es2018",
       "dom"
     ],
-    "typesRoots": [
+    "typeRoots": [
       "node_modules/@types",
       "src/typings.d.ts",
     ],
