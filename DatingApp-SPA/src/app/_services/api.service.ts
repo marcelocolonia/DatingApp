@@ -1,18 +1,37 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { TokenStorageService } from './token-storage.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService<T> {
+export abstract class ApiService<T> {
 
-  private resource = 'http://localhost:5000/api/';
+  private readonly httpOptions = {};
 
-  constructor(private httpClient: HttpClient) {
+  get Resource(): string {
+    return environment.apiUrl + this.SubResource;
   }
 
-  getAll(x: new () => T): Observable<T[]> {
-    return this.httpClient.get(this.resource + x.name) as any;
+  public abstract SubResource: string;
+
+  constructor(private httpClient: HttpClient, tokenStorage: TokenStorageService) {
+
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + tokenStorage.getToken()
+      })
+    };
+
+  }
+
+  getAll(): Observable<T[]> {
+    return this.httpClient.get<T[]>(this.Resource, this.httpOptions);
+  }
+
+  get(id: number): Observable<T> {
+    return this.httpClient.get<T>(this.Resource + '/' + id, this.httpOptions);
   }
 }
