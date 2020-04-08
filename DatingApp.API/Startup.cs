@@ -1,4 +1,5 @@
 using System.Net;
+using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Data.Interfaces;
 using DatingApp.API.Utils;
@@ -35,6 +36,7 @@ namespace DatingApp.API
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             }); 
             services.AddCors();
+            services.AddAutoMapper(typeof(DataContext ).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
