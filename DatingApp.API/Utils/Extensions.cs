@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
-namespace DatingApp.API.DatingApp.Utils
+namespace DatingApp.API.Utils
 {
 
     public static class Extensions

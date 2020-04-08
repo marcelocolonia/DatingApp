@@ -1,6 +1,6 @@
 using Microsoft.IdentityModel.Tokens;
 
-namespace DatingApp.API.DatingApp.Utils
+namespace DatingApp.API.Utils
 {
     public interface ISigningService
     {

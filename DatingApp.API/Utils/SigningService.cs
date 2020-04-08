@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
 
-namespace DatingApp.API.DatingApp.Utils
+namespace DatingApp.API.Utils
 {
     public class SigningService : ISigningService
     {

@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using DatingApp.API.Data;
-using DatingApp.API.DatingApp.Dtos;
-using DatingApp.API.DatingApp.Utils;
+using DatingApp.API.Data.Interfaces;
+using DatingApp.API.Dtos;
 using DatingApp.API.Models;
+using DatingApp.API.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
