@@ -14,11 +14,12 @@ import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { AlertService } from './_services/alert.service';
 import { TokenStorageService } from './_services/token-storage.service';
-import { MemberListComponent } from './member-list/member-list.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
 import { appRoutes } from './routes';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { UserService } from './_services/user.service';
+import { MemberCardComponent } from './members/member-card/member-card.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { UserService } from './_services/user.service';
     HomeComponent,
     RegisterComponent,
     MemberListComponent,
+    MemberCardComponent,
     ListsComponent,
     MessagesComponent,
   ],
