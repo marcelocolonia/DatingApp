@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../_services/user.service';
 import { IUser } from '../../_models/user';
-import { AlertService } from '../../_services/alert.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-member-list',
@@ -11,23 +10,11 @@ import { AlertService } from '../../_services/alert.service';
 export class MemberListComponent implements OnInit {
   users: IUser[] = [];
 
-  constructor(
-    private usersService: UserService,
-    private alertService: AlertService
-  ) {}
+  constructor(private router: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this._loadUsers();
-  }
-
-  private _loadUsers(): void {
-    this.usersService.getAll().subscribe(
-      (users: IUser[]) => {
-        this.users = users;
-      },
-      error => {
-        this.alertService.error(error);
-      }
-    );
+    this.router.data.subscribe(data => {
+      this.users = data.users;
+    });
   }
 }
