@@ -20,7 +20,7 @@ namespace DatingApp.API.Controllers
         public UsersController(IUserRepository repository, IMapper mapper)
         {
             _repository = repository;
-            _mapper = mapper;       
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -42,5 +42,6 @@ namespace DatingApp.API.Controllers
 
             return Ok(usersToReturn);
         }
+
     }
 }

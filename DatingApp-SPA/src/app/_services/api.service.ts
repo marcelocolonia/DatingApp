@@ -24,4 +24,8 @@ export abstract class ApiService<T> {
   get(id: number): Observable<T> {
     return this.httpClient.get<T>(this.Resource + '/' + id);
   }
+
+  update(model: T): Observable<any> {
+    return this.httpClient.post<T>(this.Resource + '/update', model);
+  }
 }

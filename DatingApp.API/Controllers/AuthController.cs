@@ -1,8 +1,12 @@
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using DatingApp.API.Data.Interfaces;
 using DatingApp.API.Dtos;
 using DatingApp.API.Models;
 using DatingApp.API.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -15,17 +19,23 @@ namespace DatingApp.API.Controllers
     {
 
         private readonly IAuthRepository _repository;
+        private readonly IUserRepository _usersRepository;
         private readonly IConfiguration _configuration;
         private readonly ISigningService _signing;
+        private readonly IMapper _mapper;
 
         public AuthController(
             IAuthRepository repository,
+            IUserRepository usersRepository,
             IConfiguration configuration,
-            ISigningService signing)
+            ISigningService signing,
+            IMapper mapper)
         {
             _repository = repository;
+            _usersRepository = usersRepository;
             _configuration = configuration;
             _signing = signing;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
@@ -66,6 +76,23 @@ namespace DatingApp.API.Controllers
                 token = token
             });
 
+        }
+
+        [Authorize]
+        [HttpPost("updateProfile")]
+        public async Task<IActionResult> Post(UserForUpdateDto model)
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            //  todo: dont like the array thing
+            var userDb = await _usersRepository.Get(int.Parse(userId));
+
+            _mapper.Map(model, userDb);
+
+            if (await _usersRepository.SaveAll())
+                return NoContent();
+
+            return BadRequest("Error when updating user profile");
         }
     }
 }

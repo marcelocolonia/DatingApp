@@ -19,8 +19,7 @@ export class TokenStorageService {
   }
 
   isTokenExpired(): boolean {
-    const token = localStorage.getItem('token');
-    return this.jwtHelper.isTokenExpired(token);
+    return this.jwtHelper.isTokenExpired(tokenGetter());
   }
 
   clearToken(): void {
@@ -28,8 +27,12 @@ export class TokenStorageService {
   }
 
   getUserName(): string {
-    const token = localStorage.getItem('token');
-    const data = this.jwtHelper.decodeToken(token);
-    return data.nameid['1'];
+    const data = this.jwtHelper.decodeToken(tokenGetter());
+    return data.nameid[1];
+  }
+
+  getUserId(): number {
+    const data = this.jwtHelper.decodeToken(tokenGetter());
+    return data.nameid[0];
   }
 }
