@@ -82,10 +82,8 @@ namespace DatingApp.API.Controllers
         [HttpPost("updateProfile")]
         public async Task<IActionResult> Post(UserForUpdateDto model)
         {
-            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
             //  todo: dont like the array thing
-            var userDb = await _usersRepository.Get(int.Parse(userId));
+            var userDb = await _usersRepository.Get(HttpContext.LoggedUserId());
 
             _mapper.Map(model, userDb);
 

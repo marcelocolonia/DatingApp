@@ -14,6 +14,8 @@ namespace DatingApp.API.Models
 
         public bool IsMain { get; set; }
 
+        public string PublicId { get; set; }
+
         //  Setting this relationship forces EF to configure its migration
         //  in a way that Photos are cascade deleted whenever a user is deleted
         public User User { get; set; }

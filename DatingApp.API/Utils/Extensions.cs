@@ -1,4 +1,5 @@
 using System;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
@@ -21,6 +22,11 @@ namespace DatingApp.API.Utils
             // Because we start at year 1 for the Gregorian
             // calendar, we must subtract a year here.
             return (zeroTime + span).Year - 1;
+        }
+
+        public static int LoggedUserId(this HttpContext context)
+        {
+            return int.Parse(context.User.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
     }
 }
