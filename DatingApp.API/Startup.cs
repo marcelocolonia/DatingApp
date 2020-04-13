@@ -36,11 +36,12 @@ namespace DatingApp.API
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             }); 
             services.AddCors();
-            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.Configure<PhotoUploadSettings>(Configuration.GetSection("PhotoUploadSettings"));
             services.AddAutoMapper(typeof(DataContext ).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
+            services.AddScoped<IPhotoUploadService, CloudinaryService>();
 
             var signingService = new SigningService(Configuration);
 

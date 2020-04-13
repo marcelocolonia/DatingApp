@@ -22,6 +22,7 @@ namespace DatingApp.API.Utils
             CreateMap<Photo, PhotoForDetailedDto>();
             CreateMap<Photo, PhotoForReturnDto>();
             CreateMap<PhotoForCreationDto, Photo>();
+            CreateMap<PhotoUploadResult, PhotoForCreationDto>();
 
         }
     }

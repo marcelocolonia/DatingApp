@@ -1,8 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
 using DatingApp.API.Data.Interfaces;
 using DatingApp.API.Dtos;
 using DatingApp.API.Models;
@@ -20,28 +18,19 @@ namespace DatingApp.API.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IPhotoRepository _photoRepository;
+        private readonly IPhotoUploadService _photoUploadService;
         private readonly IMapper _mapper;
-        private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
-        private readonly Cloudinary _cloudinary;
 
         public PhotosController(
             IUserRepository userRepository,
             IPhotoRepository photoRepository,
-            IMapper mapper,
-            IOptions<CloudinarySettings> cloudinaryConfig)
+            IPhotoUploadService photoUploadService,
+            IMapper mapper)
         {
             this._userRepository = userRepository;
             this._photoRepository = photoRepository;
+            this._photoUploadService = photoUploadService;
             this._mapper = mapper;
-            this._cloudinaryConfig = cloudinaryConfig;
-
-            var account = new Account(
-                _cloudinaryConfig.Value.CloudName,
-                _cloudinaryConfig.Value.ApiKey,
-                _cloudinaryConfig.Value.ApiSecret
-            );
-
-            this._cloudinary = new Cloudinary(account);
         }
 
         [HttpGet("{id}", Name = "GetPhoto")]
@@ -60,31 +49,9 @@ namespace DatingApp.API.Controllers
         {
             var userDb = await _userRepository.Get(HttpContext.LoggedUserId());
 
-            var file = photoForCreationDto.File;
+            var uploadResult = await _photoUploadService.Upload(photoForCreationDto.File);
 
-            var uploadResult = new ImageUploadResult();
-
-            //  todo: move this to a customattribute validator
-            if (file.Length > 0)
-            {
-                using (var stream = file.OpenReadStream())
-                {
-                    var uploadParams = new ImageUploadParams()
-                    {
-                        File = new FileDescription(file.Name, stream),
-                        Transformation = new Transformation()
-                        .Width(500)
-                        .Height(500)
-                        .Crop("fill")
-                        .Gravity("face")
-                    };
-
-                    uploadResult = await _cloudinary.UploadAsync(uploadParams);
-                }
-            }
-
-            photoForCreationDto.Url = uploadResult.Uri.ToString();
-            photoForCreationDto.PublicId = uploadResult.PublicId;
+            _mapper.Map(uploadResult, photoForCreationDto);
 
             var photoDb =_mapper.Map<Photo>(photoForCreationDto);
 
