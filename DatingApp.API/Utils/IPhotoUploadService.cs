@@ -6,5 +6,6 @@ namespace DatingApp.API.Utils
     public interface IPhotoUploadService
     {
         Task<PhotoUploadResult> Upload(IFormFile file);
+        Task<PhotoDeleteResult> Delete(string publicId);
     }
 }

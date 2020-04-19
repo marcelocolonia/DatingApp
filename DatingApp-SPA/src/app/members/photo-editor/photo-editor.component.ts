@@ -57,6 +57,15 @@ export class PhotoEditorComponent implements OnInit {
     });
   }
 
+  deletePhoto(photo: Photo): void {
+    this.photoService.delete(photo.id).subscribe(response => {
+      this.photos = this.photos.filter(x => x.id !== photo.id);
+    },
+    error => {
+      this.alert.error(error);
+    });
+  }
+
   ngOnInit(): void {
     this._initializeUploader();
   }

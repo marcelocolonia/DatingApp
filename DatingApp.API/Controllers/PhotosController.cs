@@ -53,7 +53,7 @@ namespace DatingApp.API.Controllers
 
             _mapper.Map(uploadResult, photoForCreationDto);
 
-            var photoDb =_mapper.Map<Photo>(photoForCreationDto);
+            var photoDb = _mapper.Map<Photo>(photoForCreationDto);
 
             if (!userDb.Photos.Any(photo => photo.IsMain))
             {
@@ -95,6 +95,29 @@ namespace DatingApp.API.Controllers
 
             return BadRequest("Could not save the photo");
 
+        }
+
+        [HttpPost("{id}/delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userDb = await _userRepository.Get(HttpContext.LoggedUserId());
+
+            var photoDb = userDb.Photos.FirstOrDefault(photo => photo.Id == id);
+
+            if (photoDb == null)
+                return NotFound();
+
+            if (photoDb.IsMain)
+                return BadRequest("Cannot delete the main photo");
+
+            _photoRepository.Delete(photoDb);
+
+            if (!await _photoRepository.SaveAll())
+                return BadRequest("Could not save the photo");
+
+            await _photoUploadService.Delete(photoDb.PublicId);
+
+            return NoContent();            
         }
     }
 }

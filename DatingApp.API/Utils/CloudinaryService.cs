@@ -50,5 +50,15 @@ namespace DatingApp.API.Utils
             };
 
         }
+
+        public async Task<PhotoDeleteResult> Delete(string publicId)
+        {
+            var result = await this._cloudinary.DeleteResourcesAsync(publicId);
+
+            return new PhotoDeleteResult {   
+                StatusCode = result.StatusCode,
+                Message = result.Error?.Message
+            };
+        }
     }
 }

@@ -22,10 +22,14 @@ export abstract class ApiService<T> {
   }
 
   get(id: number): Observable<T> {
-    return this.httpClient.get<T>(this.Resource + '/' + id);
+    return this.httpClient.get<T>(`${this.Resource}/${id}`);
   }
 
   update(model: T): Observable<any> {
-    return this.httpClient.post<T>(this.Resource + '/update', model);
+    return this.httpClient.post<T>(`${this.Resource}/update`, model);
+  }
+
+  delete(id: number): Observable<any> {
+    return this.httpClient.post<T>(`${this.Resource}/${id}/delete`, {});
   }
 }
