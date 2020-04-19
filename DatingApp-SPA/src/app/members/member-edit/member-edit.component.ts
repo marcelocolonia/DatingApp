@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { UserService } from 'src/app/_services/user.service';
 import { AlertService } from 'src/app/_services/alert.service';
 import { AuthService } from 'src/app/_services/auth.service';
+import { Photo } from 'src/app/_models/photo';
 
 @Component({
   selector: 'app-member-edit',
@@ -44,5 +45,9 @@ export class MemberEditComponent implements OnInit {
         this.alert.error(error);
       }
     );
+  }
+
+  mainPhotoSet(photo: Photo): void {
+    this.user.photoUrl = photo.url;
   }
 }

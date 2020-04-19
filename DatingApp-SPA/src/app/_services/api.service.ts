@@ -9,12 +9,12 @@ import { HttpClient } from '@angular/common/http';
 export abstract class ApiService<T> {
 
   get Resource(): string {
-    return environment.apiUrl + this.SubResource;
+    return environment.apiUrl + this.subResource;
   }
 
-  public abstract SubResource: string;
+  public abstract subResource: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(protected httpClient: HttpClient) {
   }
 
   getAll(): Observable<T[]> {

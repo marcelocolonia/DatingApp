@@ -7,6 +7,6 @@ import { IUser } from '../_models/user';
 })
 export class UserService extends ApiService<IUser> {
 
-  public SubResource = 'users';
+  public subResource = 'users';
 
 }
